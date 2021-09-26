@@ -11,6 +11,9 @@ public class TodoList {
 	public TodoList() {
 		this.list = new ArrayList<TodoItem>();
 	}
+	public int listSize() {
+		return this.list.size();
+	}
 
 	public void addItem(TodoItem t) {
 		list.add(t);

@@ -1,6 +1,7 @@
 package com.todo.menu;
 
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import com.todo.dao.TodoList;
 import com.todo.service.TodoUtil;
@@ -37,7 +38,16 @@ public class Menu {
 			System.out.printf("\nCommand > ");
 
 			isList = false;
-			String choice = sc.next();
+			String choice = sc.nextLine();
+			String choice_2 = null;
+			
+			StringTokenizer tok = new StringTokenizer(choice," ");
+			choice = tok.nextToken();
+			
+			if(tok.hasMoreTokens()) {
+			choice_2 = tok.nextToken();
+			}
+			
 			switch (choice) {
 
 			case "add":
@@ -55,7 +65,11 @@ public class Menu {
 			case "ls":
 				TodoUtil.listAll(l);
 				break;
-
+				
+			case "find":
+				TodoUtil.find(l, choice_2);
+				break;
+			
 			case "ls_name_asc":
 				l.sortByName();
 				isList = true;
