@@ -15,7 +15,8 @@ public class TodoItem {
 	private String dateToStr;
 	private String category;
 	private String due_date;
-    public int num;
+	private int comp;
+    private int id;
 
     /*
     public TodoItem(Sㅡtring title, String desc){ // 지워야 된다
@@ -26,8 +27,8 @@ public class TodoItem {
     }
     */
 
-	public TodoItem(int num , String category, String title, String desc, String due_date){
-    	this.num = num;		
+	public TodoItem(int id , String category, String title, String desc, String due_date){
+    	this.id = id;		
     	this.category=category;
         this.title=title;
         this.desc=desc;
@@ -44,8 +45,8 @@ public class TodoItem {
     	this.dateToStr = dateToStr;
     }
     
-    public TodoItem(int num, String category, String title, String desc, String due_date, String dateToStr){
-    	this.num = num;
+    public TodoItem(int id, String category, String title, String desc, String due_date, String dateToStr){ //생산자 안에 this.생산자 가능
+    	this.id = id;
     	this.category=category;
         this.title=title;
         this.desc=desc;
@@ -53,10 +54,16 @@ public class TodoItem {
     	this.dateToStr = dateToStr;
     }
     
+    public TodoItem(String title, String desc, String category, String due_date) {
+    	this.title = title;
+    	this.desc = desc;
+    	this.category = category;
+        this.due_date=due_date;
+        this.current_date=new Date();
+    	this.dateToStr = dateFormat.format(current_date);
+    }
     
-    
-    
-	
+
 	public String getCategory() {
 		return category;
 	}
@@ -81,6 +88,13 @@ public class TodoItem {
         this.desc = desc;
     }
     
+    public int getComp() {
+        return comp;
+    }
+
+    public void setComp(int comp) {
+        this.comp = comp;
+    }
 
 	public String getDue_date() {
 		return due_date;
@@ -98,14 +112,18 @@ public class TodoItem {
         this.current_date = current_date;
     }
     
-    public int getNum() {
-		return num;
+    public int getId() {
+		return id;
 	}
 
-	public void setNum(int num) {
-		this.num = num;
+	public void setId(int id) {
+		this.id = id;
 	}
     
+	public void setDateToStr(String current_date) {
+		this.dateToStr = current_date;
+	}
+	
 	public String getDateToStr() {
 		return dateToStr;
 	}
@@ -114,12 +132,20 @@ public class TodoItem {
     	this.dateToStr = dateFormat.format(current_date);
 	}
 	
-	public void setDateToStr(Date current_date) {
+	public void setDateToStr(Date current_date) { // sql용
     	this.dateToStr = dateFormat.format(current_date);
 	}
     
+	
+	public String toString() {
+		if(comp ==1 )
+			return id+" ["+category+"] " + title+"[V]" + " - " + desc + " - " + due_date +" - "+ dateToStr;
+		
+		return id+" ["+category+"] " + title + " - " + desc + " - " + due_date +" - "+ dateToStr;
+	}
+	
     public String toSaveString() {		//txtfile 저장에 사용
-    	return num+"##"+category + "##" + title + "##" + desc + "##" + due_date +"##"+ dateToStr + "\n";
+    	return id+"##"+category + "##" + title + "##" + desc + "##" + due_date +"##"+ dateToStr + "##\n";
     }
     
 }

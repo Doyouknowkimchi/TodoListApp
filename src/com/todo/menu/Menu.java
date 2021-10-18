@@ -15,10 +15,14 @@ public class Menu {
         System.out.println("2. Delete an existing item ( del )");
         System.out.println("3. Update an item  ( edit )");
         System.out.println("4. List all items ( ls )");
-        System.out.println("5. sort the list by name ( ls_name_asc )");
-        System.out.println("6. sort the list by name ( ls_name_desc )");
-        System.out.println("7. sort the list by date ( ls_date )");
-        System.out.println("8. exit (Or press escape key to exit)");
+        System.out.println("5. List all completed items ( find )");
+        System.out.println("5. List all completed items ( comp )");
+        System.out.println("5. List all completed items ( ls_comp )");
+        System.out.println("6. sort the list by name ( ls_name_asc )");
+        System.out.println("7. sort the list by name ( ls_name_desc )");
+        System.out.println("8. sort the list by date ( ls_date_asc )");
+        System.out.println("9. sort the list by date ( ls_date_desc )");
+        System.out.println("10. exit (Or press escape key to exit)");
         System.out.println("Enter your choice >");
     }
     
@@ -39,16 +43,21 @@ public class Menu {
 
 			isList = false;
 			String choice = sc.nextLine();
+			String choice_1 = null;			
 			String choice_2 = null;
 			
-			StringTokenizer tok = new StringTokenizer(choice," ");
-			choice = tok.nextToken();
-			
-			if(tok.hasMoreTokens()) {
-			choice_2 = tok.nextToken();
+			while(choice.equals(choice_2)) {
+				choice = sc.nextLine();
 			}
 			
-			switch (choice) {
+			StringTokenizer tok = new StringTokenizer(choice," ");
+			choice_1 = tok.nextToken();
+			
+			if(tok.hasMoreTokens()) {
+			choice_2 = tok.nextToken(); // choice_2 자체가 띄어쓰기 하나만 인식했구나 이걸 통으로 가져오려면?
+			}
+			
+			switch (choice_1) {
 
 			case "add":
 				TodoUtil.createItem(l);
@@ -66,25 +75,37 @@ public class Menu {
 				TodoUtil.listAll(l);
 				break;
 				
+			case "ls_comp":
+				TodoUtil.listAll(l, 1);
+				break;	
+				
 			case "find":
 				TodoUtil.find(l, choice_2);
 				break;
+				
+			case "comp":
+				TodoUtil.comp(l,choice);
+				break;
 			
 			case "ls_name_asc":
-				l.sortByName();
-				isList = true;
+				System.out.println("name_asc");
+				TodoUtil.listAll(l, "title", 1);
 				break;
 
 			case "ls_name_desc":
-				l.sortByName();
-				l.reverseList();
-				isList = true;
+				System.out.println("name_desc");
+				TodoUtil.listAll(l, "title", 0);
 				break;
 				
-			case "ls_date":
-				l.sortByDate();
-				isList = true;
+			case "ls_date_asc":
+				System.out.println("date_asc");
+				TodoUtil.listAll(l, "due_date", 1);
 				break;
+				
+			case "ls_date_desc":
+				System.out.println("date_asc");
+				TodoUtil.listAll(l, "due_date", 0);
+				break;	
 				
 			case "help":
 				Menu.displaymenu();
@@ -100,7 +121,7 @@ public class Menu {
 				break;
 			}
 			
-			if(isList) l.listAll();
+			if(isList) TodoUtil.listAll(l); // listAll(TodoList l), l 넣어줘야 한다.
 		} while (!quit);
     }
 }
